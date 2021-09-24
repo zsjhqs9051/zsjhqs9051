@@ -1,0 +1,47 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  6
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+libs (
+      "libOpenFOAM.so"
+     );
+
+application			pimpleFoam;
+startFrom			startTime;
+startTime			0;
+stopAt				endTime;
+endTime				%endTime%;			
+deltaT				1e-6;
+writeControl		adjustableRunTime;
+writeInterval		0.1;//%writeInterval%;	
+purgeWrite			10;//%purgeWrite%;
+writeFormat			binary;
+timeFormat			general;
+timePrecision		9;
+runTimeModifiable	true;
+adjustTimeStep		yes;
+maxCo				15;//%maxCo%;
+maxDeltaT			0.01;//%maxDeltaT%;
+
+functions
+{
+	#includeFunc wallShearStress;
+	#includeFunc yPlus;
+	#includeFunc residuals;
+	#includeFunc writeCellCentres;
+}
+
+// ************************************************************************* //
